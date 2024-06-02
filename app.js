@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const morgan=require('morgan');
 const mongoose=require('mongoose');
+const cookieParser = require('cookie-parser');
 
 // const dbURI='mongodb+srv://vamshi2001:1234@blogdata.tdm10ab.mongodb.net/grocery?retryWrites=true&w=majority';
 // mongoose.set('strictQuery', true);
@@ -15,6 +16,7 @@ app.listen(3000, () => {
     console.log('Listening on port 3000');
 });
 
+app.use(cookieParser());
 app.use(express.static('public'));
 app.set('view engine','ejs');
 app.set('views','assets');
@@ -25,12 +27,10 @@ app.get('/',(req,res)=>{
 });
 
 app.get('/cart',(req,res)=>{
-    const blogs = [
-        { qty:"1", title: 'Eggs', description: "12 eggs in a Pack", ActualPrice: "360", discount: "10%", Price: "324", imagelink: "https://www.blendernation.com/wp-content/uploads/2019/05/image22-2-728x336.jpg" },
-        { qty:"1", title: 'Milk', description: "A gallon of milk", ActualPrice: "400", discount: "10%", Price: "360", imagelink: "https://i.ytimg.com/vi/DKOWa40j0Jg/hq720.jpg?sqp=-oaymwEiCNAFENAFSFryq4qpAxQIARUAAAAAJQAAyEI9AICiQ9ABAQ==&rs=AOn4CLDeM8ZpKlDXcs4E3c6ppYYPonxvSw" },
-        { qty:"1", title: 'Bread', description: "12 eggs in a Pack", ActualPrice: "150", discount: "10%", Price: "135", imagelink: "https://static01.nyt.com/images/2015/04/30/dining/29BIGAPPETITE/29BIGAPPETITE-superJumbo.jpg" },
-    ];
-    res.render('cart',{blogs});
+    // console.log(req.cookies.cartitems);
+    const cartItems = req.cookies.cartitems ? JSON.parse(req.cookies.cartitems) : [];
+    console.log(cartItems);
+    res.render('cart',{cartItems});
 });
 app.get('/items/:dynamic', (req, res) => {
     const dynamicValue = req.params.dynamic;

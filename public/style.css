@@ -101,12 +101,15 @@
 .price .our-price {
     font-weight: bold;
 }
+/* Positioning for the button */
 .add {
     position: absolute;
     right: 10px;
     top: 10px;
-}
-.add button {
+  }
+  
+  /* Base button style for .add class */
+  .add button {
     background-color: red;
     color: white;
     border: none;
@@ -114,10 +117,35 @@
     border-radius: 5px;
     font-weight: bold;
     cursor: pointer;
-}
-.add button:hover {
+    font-size: 16px; /* Added for consistency */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+  }
+  
+  /* Hover state for .add class */
+  .add button:hover {
     background-color: darkred;
-}
+    transform: scale(1.05); /* Slightly larger on hover */
+  }
+  
+  /* Active state for .add class */
+  .add button:active {
+    background-color: #8b0000; /* Darker shade of red */
+    transform: scale(1); /* Normal size */
+  }
+  
+  /* Disabled state for .add class */
+  .add button:disabled {
+    background-color: #cccccc; /* Gray background */
+    cursor: not-allowed; /* Not-allowed cursor */
+    opacity: 0.6; /* Slightly transparent */
+  }
+  
+  /* Focus state for .add class for accessibility */
+  .add button:focus {
+    outline: none; /* No outline */
+    box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.5); /* Red shadow */
+  }
+  
 
 /* main */
 body {
@@ -340,3 +368,31 @@ nav ul li a:hover {
 .proceed-button:hover {
     background-color: #f7ca00;
 }
+
+/* Styles for custom alert */
+.custom-alert {
+    padding: 20px;
+    background-color: rgb(242, 242, 173);
+    color: rgb(19, 19, 19);
+    margin-bottom: 15px;
+    border-radius: 5px;
+    width: 30%;
+    text-align: center;
+  }
+  
+  /* Close button */
+  .closebtn {
+    margin-left: 15px;
+    color: rgb(15, 15, 15);
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .closebtn:hover {
+    color: black;
+  }
+  

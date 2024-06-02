@@ -4,32 +4,68 @@
 
 <body>
     <%- include('./menu.ejs') %>
+    <div id="customAlert" class="custom-alert" style="display: none;">
+        <span class="closebtn" onclick="closeAlert();">&times;</span> 
+         Item Added to the cart
+      </div>
     <div class="unique-container">
     <div class="dashboard">
-    <% if(blogs.length > 0) { %>
-        <% blogs.forEach(blog => { %>
-            <div class="container">
-                <div class="image">
-                    <img src="<%= blog.imagelink %>" alt="Eggs">
-                </div>
-                <div class="details">
-                    <div class="add">
-                        <button>ADD+</button>
+        <% if(blogs.length > 0) { %>
+            <% blogs.forEach(blog => { %>
+                <div class="container">
+                    <div class="image">
+                        <img src="<%= blog.imagelink %>" alt="Eggs">
                     </div>
-                    <h1><%= blog.title %></h1>
-                    <p><%= blog.description %></p>
-                    <div class="price">
-                        <p>PRICE: <%= blog.ActualPrice %></p>
-                        <p class="discount">DISCOUNT: <%= blog.discount %> OFF</p>
-                        <p class="our-price">OUR PRICE: <%= blog.Price %></p>
+                    <div class="details">
+                        <div class="add">
+                            <button onclick="addToCart('<%= JSON.stringify(blog) %>')">ADD+</button>
+                        </div>
+                        <h1><%= blog.title %></h1>
+                        <p><%= blog.description %></p>
+                        <div class="price">
+                            <p>PRICE: <%= blog.ActualPrice %></p>
+                            <p class="discount">DISCOUNT: <%= blog.discount %> OFF</p>
+                            <p class="our-price">OUR PRICE: <%= blog.Price %></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <% }) %>
-    <% } else { %>
-        <p>There are no items to display.....</p>
-    <% } %>
-</div>
-</div>
+            <% }) %>
+        <% } else { %>
+            <p>There are no items to display.....</p>
+        <% } %>
+        <script>
+            function addToCart(blogJson) {
+                closeAlert();
+                const blog = JSON.parse(blogJson);
+                let cartItems = getCartItems();
+                let existingBlog = cartItems.find(item => item.title === blog.title);
+                if (existingBlog) {
+                    existingBlog.qty += 1;
+                } else {
+                    blog.qty = 1;
+                    cartItems.push(blog);
+                }
+                setCartItems(cartItems);
+                document.getElementById("customAlert").style.display = "block";
+                setTimeout(closeAlert, 1000);
+            }
+
+            function getCartItems() {
+                const cookieValue = document.cookie
+                    .split('; ')
+                    .find(row => row.startsWith('cartitems='))
+                    ?.split('=')[1];
+                return cookieValue ? JSON.parse(decodeURIComponent(cookieValue)) : [];
+            }
+
+            function setCartItems(cartItems) {
+                const json = encodeURIComponent(JSON.stringify(cartItems));
+                document.cookie = `cartitems=${json};path=/;max-age=604800`; // Cookie expires in 7 days
+            }
+            function closeAlert(){
+                document.getElementById("customAlert").style.display = "none";
+            }
+        </script>
+    </div>
 </body>
 </html>

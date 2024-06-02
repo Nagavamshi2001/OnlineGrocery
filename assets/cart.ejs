@@ -6,9 +6,9 @@
         <div class="unique-container" id="unique-container">
             <h1>Shopping Cart</h1>
             <div class="dashboard" id="dashboard">
-                <% if (blogs.length > 0) { %>
-                    <% blogs.forEach((blog, index) => { %>
-                        <% if (blog.qty > 0) { %>
+                <% if (cartItems.length > 0) { %>
+                    <% cartItems.forEach((cartItem, index) => { %>
+                        <% if (cartItem.qty > 0) { %>
                             <div id="empty-cart-message" style="display: none;">
                                 <div class="a-column a-span4">
                                     <img src="https://m.media-amazon.com/images/G/31/cart/empty/kettle-desaturated._CB424694257_.svg" />
@@ -23,26 +23,26 @@
                             </div>
                         <div class="container" id="container-<%= index %>">
                             <div class="image">
-                                <img src="<%= blog.imagelink %>" alt="<%= blog.title %>" />
+                                <img src="<%= cartItem.imagelink %>" alt="<%= cartItem.title %>" />
                             </div>
                             <div class="details-cart">
                                 <div class="add-cart">
                                     <label for="quantity-<%= index %>" class="quantity-label">Qty:</label>
-                                    <select name="quantity" id="quantity-<%= index %>" data-index="<%= index %>" data-price="<%= blog.Price %>">
+                                    <select name="quantity" id="quantity-<%= index %>" data-index="<%= index %>" data-price="<%= cartItem.Price %>">
                                         <% for (let i = 0; i <= 10; i++) { %>
-                                            <option value="<%= i %>" <%= blog.qty == i ? 'selected' : '' %>><%= i %></option>
+                                            <option value="<%= i %>" <%= cartItem.qty == i ? 'selected' : '' %>><%= i %></option>
                                         <% } %>
                                     </select>
                                     
-                                    <p class="our-price">PRICE: ₹ <%= blog.Price %></p>
+                                    <p class="our-price">PRICE: ₹ <%= cartItem.Price %></p>
                                 </div>
                                 <div class="item-cart">
-                                    <h1><%= blog.title %></h1>
-                                    <p><%= blog.description %></p>
+                                    <h1><%= cartItem.title %></h1>
+                                    <p><%= cartItem.description %></p>
                                 </div>
                                 <div class="price price-cart">
-                                    <p class="discount"><%= blog.discount %> OFF</p>
-                                    <p class="our-price">Subtotal (<span id="quantityDisplay-<%= index %>"><%= blog.qty %></span> item): ₹ <span id="subtotal-<%= index %>"><%= (blog.qty * blog.Price).toFixed(2) %></span></p>
+                                    <p class="discount"><%= cartItem.discount %> OFF</p>
+                                    <p class="our-price">Subtotal (<span id="quantityDisplay-<%= index %>"><%= cartItem.qty %></span> item): ₹ <span id="subtotal-<%= index %>"><%= (cartItem.qty * cartItem.Price).toFixed(2) %></span></p>
                                 </div>
                             </div>
                         </div>
@@ -73,8 +73,8 @@
         </div>
         <script>
             document.addEventListener('DOMContentLoaded', (event) => {
-                // Embedding blogs array correctly in the script
-                const blogs = <%- JSON.stringify(blogs) %>;
+                // Embedding cartItems array correctly in the script
+                const cartItems = <%- JSON.stringify(cartItems) %>;
 
                 function updateSubtotal(index, price) {
                     var selectElement = document.getElementById("quantity-" + index);
@@ -84,23 +84,25 @@
                     if (quantity === 0) {
                         // Optionally hide the element instead of removing
                         document.getElementById("container-" + index).style.display = 'none';
-                        // Update the blog qty
-                        blogs[index].qty = quantity;
+                        // Update the cartItem qty
+                        cartItems[index].qty = quantity;
                     } else {
                         // Show the element if it was previously hidden
                         document.getElementById("container-" + index).style.display = 'block';
                         document.getElementById("quantityDisplay-" + index).innerText = quantity;
                         document.getElementById("subtotal-" + index).innerText = subtotal.toFixed(2); // Format to two decimal places
-                        // Update the blog qty
-                        blogs[index].qty = quantity;
+                        // Update the cartItem qty
+                        cartItems[index].qty = quantity;
                     }
-                    var anyBlogLeft = blogs.some(blog => blog.qty > 0);
-                    if (!anyBlogLeft) {
+                    var anycartItemLeft = cartItems.some(cartItem => cartItem.qty > 0);
+                    if (!anycartItemLeft) {
                         document.getElementById("empty-cart-message").style.display = 'block';
                     } else {
                         document.getElementById("empty-cart-message").style.display = 'none';
                     }
-
+                    let newCart = cartItems.filter(item => item.qty > 0);
+                    const json = encodeURIComponent(JSON.stringify(newCart));
+                    document.cookie = `cartitems=${json};path=/;max-age=604800`; 
                     // Update cart summary
                     updateCartSummary();
                 }
@@ -110,10 +112,10 @@
                     var totalPrice = 0;
                     var totalSavings = 0;
 
-                    blogs.forEach(blog => {
-                        totalItems += parseInt(blog.qty);
-                        totalPrice += parseFloat(blog.Price) * parseInt(blog.qty);
-                        totalSavings += (parseFloat(blog.ActualPrice) - parseFloat(blog.Price)) * parseInt(blog.qty);
+                    cartItems.forEach(cartItem => {
+                        totalItems += parseInt(cartItem.qty);
+                        totalPrice += parseFloat(cartItem.Price) * parseInt(cartItem.qty);
+                        totalSavings += (parseFloat(cartItem.ActualPrice) - parseFloat(cartItem.Price)) * parseInt(cartItem.qty);
                     });
 
                     document.getElementById("total-items").innerText = totalItems;
