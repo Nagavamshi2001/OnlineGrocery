@@ -1,0 +1,342 @@
+.container-not-found {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f2f2f2;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #333;
+}
+
+.container-1 {
+    max-width: 600px;
+    padding: 40px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.container-1 h1 {
+    font-size: 3em;
+    margin-bottom: 0.5em;
+    color: #ff6b6b;
+}
+
+.container-1 h2 {
+    font-size: 2em;
+    margin-bottom: 1em;
+}
+
+.container-1 p {
+    font-size: 1.2em;
+    margin-bottom: 2em;
+}
+
+/* dashboard */
+.dashboard {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+.container {
+    width: 600px;
+    background-color: #a1a1a1;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    position: relative;
+    border: 2px solid #333;
+    box-shadow: 0.5rem 0.5rem rgb(43, 42, 42);
+}
+.container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0.5rem 0.5rem gray;
+}
+.image {
+    flex: 1;
+}
+.image img {
+    width: 150px; /* Fixed width for all images */
+    height: 150px; /* Fixed height for all images */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    border-radius: 8px;
+}
+.details {
+    flex: 2;
+    padding-left: 10px;
+    color: #000;
+}
+.details h1 {
+    margin: 0;
+    font-size: 24px;
+}
+.details p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+.price {
+    display: flex;
+    align-items: center;
+}
+.price p {
+    margin: 0 10px 0 0;
+    font-size: 16px;
+}
+.price .discount {
+    color: red;
+    font-weight: bold;
+}
+.price .our-price {
+    font-weight: bold;
+}
+.add {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+.add button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.add button:hover {
+    background-color: darkred;
+}
+
+/* main */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.unique-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background-color: #ddd;
+    padding: 20px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    border-style: solid;
+    border-width: thin;
+}
+
+.unique-container h1 {
+    margin: 0;
+    font-size: 24px;
+    color: black;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+.unique-item {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 150px;
+    border-radius: 15px;
+    box-shadow: 0.5rem 0.5rem rgb(43, 42, 42), -0.5rem -0.5rem #ccc;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.unique-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.unique-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    clip-path: ellipse(50% 40% at 50% 50%);
+}
+
+.unique-item p {
+    margin-top: 10px;
+    font-size: 18px;
+    color: black;
+}
+
+nav {
+    width: 95%;
+    background-color: #333;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 8px 12px;
+    display: block;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Cart */
+/* Style for the quantity label */
+.quantity-label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Style for the select dropdown */
+#quantity {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+/* Style for select dropdown options */
+#quantity option {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Hover effect for select dropdown options */
+#quantity option:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+.add-cart{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+.item-cart{
+    position: absolute;
+    right: 40%;
+    top: 20px;
+}
+.price-cart{
+    position: absolute;
+    right: 10%;
+    top: 70%;
+}
+.price-cart .discount {
+    margin-right: 20%;
+}
+/* Style for the empty cart message */
+.sc-your-amazon-cart-is-empty h2 {
+    font-size: 24px;
+    color: #333;
+    margin: 50px 100px;
+}
+
+/* Style for the image */
+.a-column.a-span4 img {
+    max-width: 100%;
+    height: auto;
+}
+.unique-container-1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 15px;
+    width: 250px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    border-style: solid;
+    border-width: thin;
+    position: absolute;
+    right: 0;
+    top: 50%;
+}
+
+.cart-summary {
+    font-size: 16px;
+    margin: 20px;
+}
+.cart-summary p {
+    margin: 5px 0;
+}
+.subtotal {
+    font-weight: bold;
+}
+.savings {
+    color: #007600;
+    font-weight: bold;
+}
+.proceed-button {
+    display: inline-block;
+    background-color: #ffd814;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    margin-left: 30px;
+}
+.proceed-button:hover {
+    background-color: #f7ca00;
+}

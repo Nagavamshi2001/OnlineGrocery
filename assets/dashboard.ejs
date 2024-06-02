@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/header.ejs', { title: 'Dashboard' }) %>
+<body>
+    <%- include('./menu.ejs') %>
+    <div class="unique-container" id="unique-container">
+        <h1>Explore By Category</h1>
+        <div class="grid-container">
+            <% if (Items.length > 0) { %>
+                <% Items.forEach(item => { %>
+                    <div class="unique-item" data-title="<%= item.title %>" data-url="<%= item.url %>">
+                        <img src="<%= item.url %>" alt="<%= item.alt %>">
+                        <p><%= item.title %></p>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>No items available</p>
+            <% } %>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('unique-container');
+
+            container.addEventListener('click', (event) => {
+                const item = event.target.closest('.unique-item');
+                if (item) {
+                    const title = item.getAttribute('data-title');
+                    const url = item.getAttribute('data-url');
+                    console.log('Item clicked:', { title, url });
+                    window.location.href = `/items/${title}`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

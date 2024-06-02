@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/header.ejs', { title: 'Cart' }) %>
+    <body>
+        <%- include('./menu.ejs') %>
+        <div class="unique-container" id="unique-container">
+            <h1>Shopping Cart</h1>
+            <div class="dashboard" id="dashboard">
+                <% if (blogs.length > 0) { %>
+                    <% blogs.forEach((blog, index) => { %>
+                        <% if (blog.qty > 0) { %>
+                            <div id="empty-cart-message" style="display: none;">
+                                <div class="a-column a-span4">
+                                    <img src="https://m.media-amazon.com/images/G/31/cart/empty/kettle-desaturated._CB424694257_.svg" />
+                                </div>
+                                <div class="a-column a-span8 a-span-last">
+                                    <div class="a-row sc-your-amazon-cart-is-empty">
+                                        <h2>
+                                            Your Grocery Cart is empty....
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="container" id="container-<%= index %>">
+                            <div class="image">
+                                <img src="<%= blog.imagelink %>" alt="<%= blog.title %>" />
+                            </div>
+                            <div class="details-cart">
+                                <div class="add-cart">
+                                    <label for="quantity-<%= index %>" class="quantity-label">Qty:</label>
+                                    <select name="quantity" id="quantity-<%= index %>" data-index="<%= index %>" data-price="<%= blog.Price %>">
+                                        <% for (let i = 0; i <= 10; i++) { %>
+                                            <option value="<%= i %>" <%= blog.qty == i ? 'selected' : '' %>><%= i %></option>
+                                        <% } %>
+                                    </select>
+                                    
+                                    <p class="our-price">PRICE: ₹ <%= blog.Price %></p>
+                                </div>
+                                <div class="item-cart">
+                                    <h1><%= blog.title %></h1>
+                                    <p><%= blog.description %></p>
+                                </div>
+                                <div class="price price-cart">
+                                    <p class="discount"><%= blog.discount %> OFF</p>
+                                    <p class="our-price">Subtotal (<span id="quantityDisplay-<%= index %>"><%= blog.qty %></span> item): ₹ <span id="subtotal-<%= index %>"><%= (blog.qty * blog.Price).toFixed(2) %></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                    <% }) %>
+                <% } else { %>
+                    <div>
+                        <div class="a-column a-span4">
+                            <img src="https://m.media-amazon.com/images/G/31/cart/empty/kettle-desaturated._CB424694257_.svg" />
+                        </div>
+                        <div class="a-column a-span8 a-span-last">
+                            <div class="a-row sc-your-amazon-cart-is-empty">
+                                <h2>
+                                    Your Grocery Cart is empty....
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        <div class="unique-container-1">
+            <div class="cart-summary">
+                <p class="subtotal">Cart Total (<span id="total-items">0</span> items) : ₹ <span id="total-price">0.00</span></p>
+                <p class="savings">Total Savings: ₹ <span id="total-savings">0.00</span></p>
+                <a href="#" class="proceed-button">Proceed to Buy</a>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+                // Embedding blogs array correctly in the script
+                const blogs = <%- JSON.stringify(blogs) %>;
+
+                function updateSubtotal(index, price) {
+                    var selectElement = document.getElementById("quantity-" + index);
+                    var quantity = parseInt(selectElement.value);
+                    var subtotal = quantity * price;
+
+                    if (quantity === 0) {
+                        // Optionally hide the element instead of removing
+                        document.getElementById("container-" + index).style.display = 'none';
+                        // Update the blog qty
+                        blogs[index].qty = quantity;
+                    } else {
+                        // Show the element if it was previously hidden
+                        document.getElementById("container-" + index).style.display = 'block';
+                        document.getElementById("quantityDisplay-" + index).innerText = quantity;
+                        document.getElementById("subtotal-" + index).innerText = subtotal.toFixed(2); // Format to two decimal places
+                        // Update the blog qty
+                        blogs[index].qty = quantity;
+                    }
+                    var anyBlogLeft = blogs.some(blog => blog.qty > 0);
+                    if (!anyBlogLeft) {
+                        document.getElementById("empty-cart-message").style.display = 'block';
+                    } else {
+                        document.getElementById("empty-cart-message").style.display = 'none';
+                    }
+
+                    // Update cart summary
+                    updateCartSummary();
+                }
+
+                function updateCartSummary() {
+                    var totalItems = 0;
+                    var totalPrice = 0;
+                    var totalSavings = 0;
+
+                    blogs.forEach(blog => {
+                        totalItems += parseInt(blog.qty);
+                        totalPrice += parseFloat(blog.Price) * parseInt(blog.qty);
+                        totalSavings += (parseFloat(blog.ActualPrice) - parseFloat(blog.Price)) * parseInt(blog.qty);
+                    });
+
+                    document.getElementById("total-items").innerText = totalItems;
+                    document.getElementById("total-price").innerText = totalPrice.toFixed(2);
+                    document.getElementById("total-savings").innerText = totalSavings.toFixed(2);
+                }
+
+                document.querySelectorAll("select[name='quantity']").forEach(select => {
+                    select.addEventListener("change", (event) => {
+                        var index = event.target.getAttribute("data-index");
+                        var price = parseFloat(event.target.getAttribute("data-price"));
+                        updateSubtotal(index, price);
+                    });
+                });
+
+                // Initial call to set the correct subtotal based on the default quantity
+                document.querySelectorAll("select[name='quantity']").forEach(select => {
+                    var index = select.getAttribute("data-index");
+                    var price = parseFloat(select.getAttribute("data-price"));
+                    updateSubtotal(index, price);
+                });
+                updateCartSummary();
+            });
+        </script>
+    </body>
+</html>

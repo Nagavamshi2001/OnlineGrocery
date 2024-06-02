@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/header.ejs', { title: dynamicValue }) %>
+
+<body>
+    <%- include('./menu.ejs') %>
+    <div class="unique-container">
+    <div class="dashboard">
+    <% if(blogs.length > 0) { %>
+        <% blogs.forEach(blog => { %>
+            <div class="container">
+                <div class="image">
+                    <img src="<%= blog.imagelink %>" alt="Eggs">
+                </div>
+                <div class="details">
+                    <div class="add">
+                        <button>ADD+</button>
+                    </div>
+                    <h1><%= blog.title %></h1>
+                    <p><%= blog.description %></p>
+                    <div class="price">
+                        <p>PRICE: <%= blog.ActualPrice %></p>
+                        <p class="discount">DISCOUNT: <%= blog.discount %> OFF</p>
+                        <p class="our-price">OUR PRICE: <%= blog.Price %></p>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <p>There are no items to display.....</p>
+    <% } %>
+</div>
+</div>
+</body>
+</html>
